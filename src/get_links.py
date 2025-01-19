@@ -14,9 +14,11 @@ links = container.find_all("a")
 href_values = [urljoin(base_url, link.get('href')) for link in links]
 
 
+for href in href_values:
+    print(href, end="\n" *2)
 
-
-
+## so this gets all the links on the first page. 
+## hmm 
 
 
 
