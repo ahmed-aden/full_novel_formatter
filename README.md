@@ -1,6 +1,6 @@
 HTML to EPUB converter for Full Novel
 
-Setup - mac os
+Setup 
 
 Create a virtual environment
 ```
