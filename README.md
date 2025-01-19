@@ -1,4 +1,4 @@
-HTML parser / EPUB converter for Full Novel
+HTML to EPUB converter for Full Novel
 
 Setup - mac os
 
