@@ -13,9 +13,17 @@ def get_story(URL: str):
     # get the story in the chapter
     content = story.find_all("p")
     # for each line in the story
+    chapter_text = ""
     for line in content:
         # strip the useless stuff, and add 2 newlines
-        print(line.text.strip(), end="\n" * 2)
+        chapter_text += line.text.strip() + "\n\n" 
+    
+    # save to txt file
+    chapter_number = 1 
+    # change chapter number to be dynamic
+    with open(f'chapter{chapter_number}.txt', 'w') as f:
+        f.write(chapter_text)
+    
 
 
 def main():
