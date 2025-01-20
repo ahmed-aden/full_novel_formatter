@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import re
-
+import os
 
 
 def get_story(URL: str):
@@ -26,9 +25,12 @@ def get_story(URL: str):
         chapter_text += line.text.strip() + "\n\n" 
     
     # save to txt file
-    chapter_number = 1
-    # change chapter number to be dynamic
-    with open(f'chapter{chapter_number}.txt', 'w') as f:
+    chapter_number = 1 # change chapter number to be dynamic
+    # create directory
+    directory = "chapters"
+    # create dir if it does not exist
+    os.makedirs(directory, exist_ok=True)
+    with open(f'{directory}/chapter{chapter_number}.txt', 'w') as f:
         f.write(chapter_text)
     
     
@@ -38,6 +40,13 @@ def main():
     # TODO replace URL with it being passed from another function which scrapes URLS from the main page
     URL = "https://novelfull.com/lord-of-the-mysteries/chapter-1-crimson.html"
     get_story(URL)
+    # what page format does
+    # is given a chapter link
+    # it will save it to a txt file
+    # now i want to be able to put all these txt files in a directory
+        # create directory if not existing
+        # save all txt file to directory
+        
 
 if __name__ == '__main__':
     main()
