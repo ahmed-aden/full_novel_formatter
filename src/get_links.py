@@ -56,9 +56,22 @@ def get_last_page_num(url: str):
 
 """
 
-def get_chapters(url: str, base_url: str):
+def get_chapters(url: str):
     """:returns: a list of chapters available on the page"""
-    pass
+    # scrape a pages chapter contents
+    # only the first 50 links
+    # and return a list
+    chapter_links = []
+    soup = scrape(url)
+    page = soup.find(id="list-chapter")
+    links = page.find_all("a")
+
+    for link in links[:50]:
+        chapter_links.append(urljoin(BASE_URL, link.get('href')))
+    
+    return chapter_links
+
+
 
 
 def main():
@@ -66,7 +79,8 @@ def main():
     URL2 = "https://novelfull.com/lord-of-the-mysteries.html?page=2"
     base_url = "https://novelfull.com/"
     # get_links(URL2, base_url)
-    get_range(URL)
+    # get_range(URL)
+    get_chapters(URL)
 
 if __name__ == '__main__':
     main()
