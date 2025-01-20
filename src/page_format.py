@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import re
 
 
 
@@ -8,21 +9,28 @@ def get_story(URL: str):
     page = requests.get(URL)
     # scrape the html off the page
     soup = BeautifulSoup(page.content, "html.parser")
+    # get the title tag
+    
+    
     # get the chapter content
     story = soup.find(id="chapter-content")
     # get the story in the chapter
     content = story.find_all("p")
-    # for each line in the story
+    
+    # alr i got the chapter title
+    chapter_title = content[2].text.strip()
+    print(f" chapter title: {chapter_title}")
     chapter_text = ""
     for line in content:
         # strip the useless stuff, and add 2 newlines
         chapter_text += line.text.strip() + "\n\n" 
     
     # save to txt file
-    chapter_number = 1 
+    chapter_number = 1
     # change chapter number to be dynamic
     with open(f'chapter{chapter_number}.txt', 'w') as f:
         f.write(chapter_text)
+    
     
 
 
