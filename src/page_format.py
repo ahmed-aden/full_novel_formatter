@@ -21,13 +21,20 @@ def get_story(URL: str):
     # get the chapter content
     # story = soup.find(id="chapter-content")
     chapter_content = soup.find('div', {'id': 'chapter-content'})
+
+    next_div = chapter_content.find_next_sibling('div') # - figure out 1 sol for both type of formatting types
+    print(next_div)
+    """children = chapter_content.descendants
+    for child in children:
+        print(f"using descendants: {child}")"""
+    
     # print(story.prettify()[:5000])  
     # get the story in the chapter
     if not chapter_content:
         print("chp content not found")
         return
     
-    
+    # print(f" children of chapter_content {children} ")
     chapter_title_tag = chapter_content.find('h3')
     if chapter_title_tag:
         chapter_title = chapter_title_tag.text.strip()
@@ -40,8 +47,12 @@ def get_story(URL: str):
     chapter_text = ""
     for line in chapter_content.find_all('p'):
         # strip the useless stuff, and add 2 newlines
-        print(chapter_text)
+        # print(chapter_text)
+        # print(line)
+        print(line)
         chapter_text += line.text.strip() + "\n\n" 
+    # print(chapter_text)
+    
     
     
     # save to txt file
@@ -59,8 +70,9 @@ def get_story(URL: str):
 def main():
     # TODO replace URL with it being passed from another function which scrapes URLS from the main page
     URL = "https://novelfull.com/lord-of-the-mysteries/chapter-1-crimson.html"
-    URL2 = "https://novelfull.com/lord-of-the-mysteries/chapter-3-melissa.html"
-    get_story(URL2)
+    URL4 = "https://novelfull.com/lord-of-the-mysteries/chapter-4-divination.html"
+    get_story(URL4)
+    
     # what page format does
     # is given a chapter link
     # it will save it to a txt file
