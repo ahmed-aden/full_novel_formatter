@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+from page_format import get_story
 
 # global constant
 BASE_URL = "https://novelfull.com"
@@ -48,15 +49,7 @@ def get_last_page_num(url: str):
     link = last_page.find("a")
     return (int(link['data-page']) + 1) # returns the last page on which the chapters can be found
 
-    
-
-    
-"""
-<a href="/lord-of-the-mysteries.html?page=29" data-page="28">Last »</a>
-
-"""
-
-def get_chapters(url: str):
+def get_chapters(url: str) -> list[str]:
     """:returns: a list of chapters available on the page"""
     # scrape a pages chapter contents
     # only the first 50 links
@@ -71,19 +64,44 @@ def get_chapters(url: str):
     
     return chapter_links
 
+def get_book(URL: str, last_page_num: int):
+    # we need last page
+    # we also need main page url?
+    # "https://novelfull.com/lord-of-the-mysteries.html?page={last_page_num}"
+    # loop over rnage(last_page_num)
+        # get page content
+        # store it
+        # continue
+    book = []
+    for _ in range(1, last_page_num+1):
+        curr_url = "https://novelfull.com/lord-of-the-mysteries.html?page={last_page_num}"
+        chapters = get_chapters(curr_url)
+        # get chapters gets all the absolute chapter links
+        # which returns a list
+        for chapter in chapters:
+            # so for each link/to chapter in chapters
+            chapter_page = get_story(chapter)
+            # we call get story
+            # which scrapes the story from it
+            # however get story doesnt actually reutnr anything so wtf are we appending
+            book.append(chapter_page)
+
+            
+    return book
+
+
 
 
 
 def main():
     URL = "https://novelfull.com/lord-of-the-mysteries.html"
     URL2 = "https://novelfull.com/lord-of-the-mysteries.html?page=2"
-    base_url = "https://novelfull.com/"
-    # get_links(URL2, base_url)
-    # get_range(URL)
-    get_chapters(URL)
+    get_book(URL, get_last_page_num(URL))
 
 if __name__ == '__main__':
     main()
+# current what page format does
+# is that given a link
 
 
 # TODO: need to get the function to work such that it passes me two varaibles

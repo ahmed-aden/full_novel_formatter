@@ -21,7 +21,7 @@ def get_story(URL: str):
         print("chp content not found")
         return
     
-    # alr i got the chapter title
+    
     chapter_title_tag = chapter_content.find('h3')
     if chapter_title_tag:
         chapter_title = chapter_title_tag.text.strip()
@@ -34,6 +34,7 @@ def get_story(URL: str):
     chapter_text = ""
     for line in chapter_content.find_all('p'):
         # strip the useless stuff, and add 2 newlines
+        print(chapter_text)
         chapter_text += line.text.strip() + "\n\n" 
     
     
@@ -52,7 +53,7 @@ def get_story(URL: str):
 def main():
     # TODO replace URL with it being passed from another function which scrapes URLS from the main page
     URL = "https://novelfull.com/lord-of-the-mysteries/chapter-1-crimson.html"
-    URL2 = "https://novelfull.com/lord-of-the-mysteries/chapter-2-situation.html"
+    URL2 = "https://novelfull.com/lord-of-the-mysteries/chapter-3-melissa.html"
     get_story(URL2)
     # what page format does
     # is given a chapter link
