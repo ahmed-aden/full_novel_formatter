@@ -23,7 +23,7 @@ def get_story(URL: str):
     chapter_content = soup.find('div', {'id': 'chapter-content'})
 
     next_div = chapter_content.find_next_sibling('div') # - figure out 1 sol for both type of formatting types
-    print(next_div)
+    
     """children = chapter_content.descendants
     for child in children:
         print(f"using descendants: {child}")"""
@@ -44,12 +44,12 @@ def get_story(URL: str):
     print(f"Chapter title: {chapter_title}")
 
 
-    chapter_text = ""
-    for line in chapter_content.find_all('p'):
+    chapter_text = f"{chapter_title} \n\n" 
+    for line in next_div.find_all('p'):
         # strip the useless stuff, and add 2 newlines
         # print(chapter_text)
         # print(line)
-        print(line)
+        
         chapter_text += line.text.strip() + "\n\n" 
     # print(chapter_text)
     
