@@ -1,13 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+# from get_links import scrape
 
+def scrape(URL: str):
+    """:returns: html content from page"""
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, "html.parser")
+    return soup
 
 def get_story(URL: str):
     # get the page from the URL
-    page = requests.get(URL)
+    # page = requests.get(URL)
     # scrape the html off the page
-    soup = BeautifulSoup(page.content, "html.parser")
+    soup = scrape(URL)
     # get the title tag
     
     # print(soup.prettify()[:5000])  

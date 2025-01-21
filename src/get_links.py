@@ -11,7 +11,7 @@ def scrape(URL: str):
     """:returns: html content from page"""
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
-    return soup
+    return soup.get_text()
     
 
 def get_links(chapters_page_url: str):
@@ -64,7 +64,7 @@ def get_chapters(url: str) -> list[str]:
     
     return chapter_links
 
-def get_book(URL: str, last_page_num: int):
+def get_book(last_page_num: int):
     # we need last page
     # we also need main page url?
     # "https://novelfull.com/lord-of-the-mysteries.html?page={last_page_num}"
@@ -96,7 +96,7 @@ def get_book(URL: str, last_page_num: int):
 def main():
     URL = "https://novelfull.com/lord-of-the-mysteries.html"
     URL2 = "https://novelfull.com/lord-of-the-mysteries.html?page=2"
-    get_book(URL, get_last_page_num(URL))
+    get_book(get_last_page_num(URL))
 
 if __name__ == '__main__':
     main()
