@@ -3,57 +3,42 @@ from bs4 import BeautifulSoup
 import os
 # from get_links import scrape
 
-def scrape(URL: str):
+def scrape(URL: str) -> str:
     """:returns: html content from page"""
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     return soup
 
-def get_story(URL: str):
-    # get the page from the URL
-    # page = requests.get(URL)
-    # scrape the html off the page
-    soup = scrape(URL)
-    # get the title tag
-    
-    # print(soup.prettify()[:5000])  
-    
-    # get the chapter content
-    # story = soup.find(id="chapter-content")
-    chapter_content = soup.find('div', {'id': 'chapter-content'})
 
-    next_div = chapter_content.find_next_sibling('div') # - figure out 1 sol for both type of formatting types
-    
-    """children = chapter_content.descendants
-    for child in children:
-        print(f"using descendants: {child}")"""
-    
-    # print(story.prettify()[:5000])  
-    # get the story in the chapter
-    if not chapter_content:
-        print("chp content not found")
-        return
-    
-    # print(f" children of chapter_content {children} ")
-    chapter_title_tag = chapter_content.find('h3')
+
+# REFACTORING
+# TODO: create function to get the titles
+# TODO: get a function to create a new txt page
+# TODO: 
+# TODO
+def get_title(header: str) -> str:
+    chapter_title_tag = header.find('h3')
     if chapter_title_tag:
         chapter_title = chapter_title_tag.text.strip()
     else:
         chapter_title = "Unknown Title"
+    return chapter_title
+
+
+def get_story(URL: str) -> None:
     
+    soup = scrape(URL)
+    chapter_content = soup.find('div', {'id': 'chapter-content'})
+    # this is the content within the page
+    next_div = chapter_content.find_next_sibling('div') 
+    chapter_title = get_title(chapter_content)
     print(f"Chapter title: {chapter_title}")
 
 
     chapter_text = f"{chapter_title} \n\n" 
+    # strip away the html from the content
     for line in next_div.find_all('p'):
-        # strip the useless stuff, and add 2 newlines
-        # print(chapter_text)
-        # print(line)
-        
         chapter_text += line.text.strip() + "\n\n" 
-    # print(chapter_text)
-    
-    
     
     # save to txt file
     chapter_number = 2 # change chapter number to be dynamic
