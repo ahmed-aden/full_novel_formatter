@@ -6,14 +6,12 @@ def write_stories(URL: str):
     chapter_links = get_chapters(URL)
     for chapter in chapter_links:
         get_story(chapter)
-    
-
-
 
 def main():
-    chapter_url = "https://novelfull.com/lord-of-the-mysteries.html"
-    write_stories(chapter_url)
-    
+    # chapter_url = "https://novelfull.com/lord-of-the-mysteries.html"
+    print("Please enter a link from novelfull.com")
+    chapter_url = str(input())
 
+    write_stories(chapter_url)
 if __name__ == '__main__':
     main()

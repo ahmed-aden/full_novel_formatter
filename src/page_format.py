@@ -58,16 +58,3 @@ def get_story(URL: str) -> None:
 
 
 
-
-def main():
-    # URLS for testing
-    URL = "https://novelfull.com/lord-of-the-mysteries/chapter-1-crimson.html"
-    URL4 = "https://novelfull.com/lord-of-the-mysteries/chapter-4-divination.html"
-    URL2 = "https://novelfull.com/lord-of-the-mysteries/chapter-2-situation.html"
-    get_story(URL2)
-    
-if __name__ == '__main__':
-    main()
-    
-    
-
