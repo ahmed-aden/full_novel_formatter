@@ -11,10 +11,10 @@ def scrape(URL: str):
     """:returns: html content from page"""
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
-    return soup.get_text()
+    return soup
     
 
-def get_links(chapters_page_url: str):
+def get_links(chapters_page_url: str) -> list[str]:
     # TODO replace with maybe this function being called multiple times or smth
     # auto mate somehow
     
@@ -31,9 +31,8 @@ def get_links(chapters_page_url: str):
     
     # attach the base url to the relative chapter links using URL join
     href_values = [urljoin(BASE_URL, link.get('href')) for link in links]
-
-    for link in href_values:
-        print(link, end="\n" * 2)
+    return href_values
+    
 
 
 def get_last_page_num(url: str):
@@ -51,17 +50,8 @@ def get_last_page_num(url: str):
 
 def get_chapters(url: str) -> list[str]:
     """:returns: a list of chapters available on the page"""
-    # scrape a pages chapter contents
-    # only the first 50 links
-    # and return a list
-    chapter_links = []
-    soup = scrape(url)
-    page = soup.find(id="list-chapter")
-    links = page.find_all("a")
-
-    for link in links[:50]:
-        chapter_links.append(urljoin(BASE_URL, link.get('href')))
-    
+    links = get_links(url)
+    chapter_links = links[0:50]
     return chapter_links
 
 def get_book(last_page_num: int):
@@ -96,7 +86,10 @@ def get_book(last_page_num: int):
 def main():
     URL = "https://novelfull.com/lord-of-the-mysteries.html"
     URL2 = "https://novelfull.com/lord-of-the-mysteries.html?page=2"
-    get_book(get_last_page_num(URL))
+    # get_book(get_last_page_num(URL))
+    foo = get_chapters(URL2)
+    for bar in foo:
+        print(bar, end="\n\n")
 
 if __name__ == '__main__':
     main()
