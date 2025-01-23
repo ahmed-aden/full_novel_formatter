@@ -1,83 +1,51 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-from page_format import get_story
 
-# global constant
+# global constants
 BASE_URL = "https://novelfull.com"
+NUM_OF_CHAPTERS = 50
+
 ## so this gets all the links on the first page. 
 
-def scrape(URL: str):
+def scrape(URL: str) -> str:
     """:returns: html content from page"""
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     return soup
-    
 
 def get_links(chapters_page_url: str) -> list[str]:
     # TODO replace with maybe this function being called multiple times or smth
     # auto mate somehow
-    
-    # get the page
-    # page = requests.get(chapters_page_url)
-    # parse the content to get the html
-    # soup = BeautifulSoup(page.content, "html.parser")
     soup = scrape(chapters_page_url)
-    # get the chapter links
     container = soup.find(id="list-chapter")
-    # get the specific links within the content
     links = container.find_all("a")
-    # define base url
-    
     # attach the base url to the relative chapter links using URL join
     href_values = [urljoin(BASE_URL, link.get('href')) for link in links]
     return href_values
     
-
-
-def get_last_page_num(url: str):
-    """:returns: the range of which we will be searching using the links"""
-    # after we return the upper bound, the link can be changed dynamically within the range loop
-    # find the anchor tag with the title
+def get_last_page_num(url: str) -> int:
+    """:returns: the upper bound of which we will be searching using the links"""
     soup = scrape(url)
-    # well we could look for li last class
-    # and then get the link inside the anchor tag 
-    
-    
     last_page = soup.find(class_="last")
     link = last_page.find("a")
-    return (int(link['data-page']) + 1) # returns the last page on which the chapters can be found
+    return (int(link['data-page']) + 1) 
 
 def get_chapters(url: str) -> list[str]:
-    """:returns: a list of chapters available on the page"""
+    """:returns: a list of chapters links available on the page"""
     links = get_links(url)
-    chapter_links = links[0:50]
+    chapter_links = links[0:NUM_OF_CHAPTERS]
     return chapter_links
 
-def get_book(last_page_num: int):
-    # we need last page
-    # we also need main page url?
-    # "https://novelfull.com/lord-of-the-mysteries.html?page={last_page_num}"
-    # loop over rnage(last_page_num)
-        # get page content
-        # store it
-        # continue
-    book = []
-    for _ in range(1, last_page_num+1):
-        curr_url = "https://novelfull.com/lord-of-the-mysteries.html?page={last_page_num}"
-        chapters = get_chapters(curr_url)
-        # get chapters gets all the absolute chapter links
-        # which returns a list
-        for chapter in chapters:
-            # so for each link/to chapter in chapters
-            chapter_page = get_story(chapter)
-            # we call get story
-            # which scrapes the story from it
-            # however get story doesnt actually reutnr anything so wtf are we appending
-            book.append(chapter_page)
 
-            
-    return book
+
+# we need a function that will iterate over a list of chapter links
+# call get_story on it
+# and then call the epub converter on it
+
+
+
+
 
 
 
@@ -87,10 +55,7 @@ def main():
     URL = "https://novelfull.com/lord-of-the-mysteries.html"
     URL2 = "https://novelfull.com/lord-of-the-mysteries.html?page=2"
     # get_book(get_last_page_num(URL))
-    foo = get_chapters(URL2)
-    for bar in foo:
-        print(bar, end="\n\n")
-
+    
 if __name__ == '__main__':
     main()
 # current what page format does

@@ -1,15 +1,19 @@
-from bs4 import BeautifulSoup
-import requests
-from get_links import scrape
+from get_links import get_chapters
+from page_format import get_story
 
-
-
-URL = "https://novelfull.com/lord-of-the-mysteries/chapter-1-crimson.html"
-URL2 = "https://novelfull.com/lord-of-the-mysteries/chapter-2-situation.html"
-def main():
+def write_stories(URL: str):
+    """should write down the 50 txt files, given a link such as below"""
+    chapter_links = get_chapters(URL)
+    for chapter in chapter_links:
+        get_story(chapter)
     
-    page2 = scrape(URL2)
-    print(page2)
+
+
+
+def main():
+    chapter_url = "https://novelfull.com/lord-of-the-mysteries.html"
+    write_stories(chapter_url)
+    
 
 if __name__ == '__main__':
     main()

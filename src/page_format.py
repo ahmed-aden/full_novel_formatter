@@ -38,10 +38,9 @@ def write_to_chapters_dir(page: str) -> None:
     with open(f"{directory}/{chapter_title}.txt", 'w') as writer:
         writer.write(page)
     os.makedirs(directory_epub, exist_ok=True)
-    # convert_txt_to_epub(f"{directory}/{chapter_title}.txt", f"{directory_epub}/{chapter_title}.epub")
+    convert_txt_to_epub(f"{directory}/{chapter_title}.txt", f"{directory_epub}/{chapter_title}.epub")
 
-
-def get_story(URL: str) -> str:
+def get_story(URL: str) -> None:
     soup = scrape(URL)
     chapter_content = soup.find('div', {'id': 'chapter-content'})
     # this is the content within the page
@@ -52,14 +51,9 @@ def get_story(URL: str) -> str:
     # strip away the html from the content
     for line in next_div.find_all('p'):
         chapter_text += line.text.strip() + "\n\n" 
-
-    return chapter_text
-
-
-def join_story() -> None:
-    """"""
     # write to a txt file
-    # write_to_chapters_dir(chapter_text)
+    write_to_chapters_dir(chapter_text)
+
 
 
 
