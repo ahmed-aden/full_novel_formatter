@@ -1,4 +1,4 @@
-HTML to EPUB converter for Full Novel
+Web scraper for fullnovel
 
 Setup 
 
